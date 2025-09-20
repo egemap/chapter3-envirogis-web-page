@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<!-- HTML5 document type declaration -->
+<html lang="en">
+<!-- Root element with language set to English -->
+<head>
+    <!-- Document metadata and resources -->
+    <meta charset="UTF-8">
+    <!-- Character encoding declaration -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Responsive viewport settings -->
+    
+    <style>
+        /* CSS styles for the entire document */
+        
+        /* Base body styling */
+        body {
+            font-family: Arial, sans-serif;  /* Default font */
+            margin: 0;  /* Remove default margin */
+            padding: 0;  /* Remove default padding */
+            display: flex;  /* Flexbox layout */
+            flex-direction: column;  /* Vertical stacking */
+            min-height: 100vh;  /* Minimum height of viewport */
+            overflow-y: auto;  /* Vertical scroll if needed */
+            padding-left: 3%;  /* Left padding */
+            padding-right: 3%;  /* Right padding */
+            margin-top: 3cm;  /* Top margin */
+            margin-bottom: 1cm;  /* Bottom margin */
+        }
+        
+        /* Header styling */
+        .header {
+            text-align: center;  /* Center align header content */
+            margin-bottom: 20px;  /* Bottom margin */
+        }
+        
+        /* Title styling */
+        .title {
+            font-size: 24px;  /* Font size */
+            font-weight: bold;  /* Bold text */
+            margin-bottom: 10px;  /* Bottom margin */
+        }
+        
+        /* Description text styling */
+        .description {
+            margin-bottom: 30px;  /* Bottom margin */
+            text-align: left;  /* Left aligned text */
+        }
+        
+        /* Row container styling */
+        .row {
+            display: flex;  /* Flexbox layout */
+            flex: 1;  /* Grow to fill space */
+            width: 100%;  /* Full width */
+            margin-bottom: 20px;  /* Bottom margin */
+        }
+        
+        /* Column styling */
+        .column {
+            flex: 1;  /* Equal width columns */
+            display: flex;  /* Flexbox layout */
+            flex-direction: column;  /* Vertical stacking */
+            justify-content: center;  /* Center vertically */
+            align-items: center;  /* Center horizontally */
+            overflow: hidden;  /* Hide overflow */
+            margin: 0 10px;  /* Horizontal margin */
+        }
+        
+        /* Iframe and image styling */
+        iframe.map, img.image {
+            width: 100%;  /* Full width */
+            height: 100%;  /* Full height */
+            object-fit: cover;  /* Cover container */
+        }
+        
+        /* Interactive plot styling */
+        .interactive-plot {
+            width: 100%;  /* Full width */
+            height: 100%;  /* Full height */
+            object-fit: cover;  /* Cover container */
+        }
+        
+        /* Figure caption styling */
+        .figure-caption {
+            text-align: center;  /* Center aligned */
+            margin-top: 10px;  /* Top margin */
+            font-style: italic;  /* Italic text */
+        }
+
+        /* Soil erosion data container */
+        .soil-erosion-data {
+            font-family: Arial, sans-serif;  /* Font family */
+            max-width: 800px;  /* Maximum width */
+            margin: 20px auto;  /* Vertical and horizontal margin */
+            padding: 20px;  /* Internal padding */
+            border: 1px solid #e0e0e0;  /* Light gray border */
+            border-radius: 8px;  /* Rounded corners */
+            background-color: #f9f9f9;  /* Light gray background */
+        }
+        
+        /* Soil erosion data heading */
+        .soil-erosion-data h3 {
+            color: #2c3e50;  /* Dark blue color */
+            border-bottom: 2px solid #3498db;  /* Blue bottom border */
+            padding-bottom: 10px;  /* Bottom padding */
+            margin-top: 0;  /* Remove top margin */
+        }
+        
+        /* Data grid layout */
+        .data-grid {
+            display: grid;  /* CSS Grid layout */
+            gap: 12px;  /* Gap between grid items */
+        }
+        
+        /* Data row styling */
+        .data-row {
+            display: flex;  /* Flexbox layout */
+            align-items: center;  /* Center vertically */
+            padding: 8px 0;  /* Vertical padding */
+            border-bottom: 1px dashed #ddd;  /* Dashed bottom border */
+        }
+        
+        /* Data label styling */
+        .data-label {
+            font-weight: bold;  /* Bold text */
+            width: 150px;  /* Fixed width */
+            color: #34495e;  /* Dark blue color */
+        }
+        
+        /* Data value styling */
+        .data-value {
+            width: 120px;  /* Fixed width */
+            font-family: monospace;  /* Monospace font */
+            color: #27ae60;  /* Green color */
+            font-size: 1.2em;  /* Larger font size */
+            font-weight: bold;  /* Bold text */
+            padding: 5px 0;  /* Vertical padding */
+            text-align: center;  /* Center aligned */
+        }
+        
+        /* Data description styling */
+        .data-desc {
+            color: #7f8c8d;  /* Gray color */
+            font-style: italic;  /* Italic text */
+            margin-left: 20px;  /* Left margin */
+            font-size: 0.9em;  /* Smaller font size */
+        }
+        
+        /* Stats row styling */
+        .stats-row {
+            grid-column: 1 / -1;  /* Span all columns */
+            display: flex;  /* Flexbox layout */
+            justify-content: space-between;  /* Space between items */
+            grid-template-columns: repeat(4, 1fr);  /* 4 equal columns */
+            gap: 15px;  /* Gap between items */
+            margin-top: 15px;  /* Top margin */
+            border-bottom: none;  /* No bottom border */
+        }
+        
+        /* Stat box styling */
+        .stat-box {
+            text-align: center;  /* Center aligned */
+            padding: 10px;  /* Internal padding */
+            background-color: #ecf0f1;  /* Light gray background */
+            border-radius: 5px;  /* Rounded corners */
+            flex: 1;  /* Equal width */
+            margin: 0 5px;  /* Horizontal margin */
+        }
+        
+        /* Stat label styling */
+        .stat-label {
+            font-size: 0.9em;  /* Smaller font size */
+            font-weight: bold;  /* Bold text */
+            color: #34495e;  /* Dark blue color */
+        }
+        
+        /* Stat value styling */
+        .stat-value {
+            font-weight: bold;  /* Bold text */
+            color: #2980b9;  /* Blue color */
+            font-size: 1.1em;  /* Slightly larger font */
+        }
+        
+        /* Data note styling */
+        .data-note {
+            grid-column: 1 / -1;  /* Span all columns */
+            font-size: 0.85em;  /* Small font size */
+            color: #e74c3c;  /* Red color */
+            margin-top: 15px;  /* Top margin */
+            text-align: right;  /* Right aligned */
+            margin-top: 10px;  /* Top margin */
+            padding-top: 10px;  /* Top padding */
+        }
+        
+        /* Hide mobile description by default */
+        .header .description.mobile {
+            display: none;
+        }
+  
+        /* Responsive design for screens up to 768px */
+        @media only screen and (max-width: 768px) {
+            /* Adjust body margins and padding */
+            body {
+                margin-top: 3cm;  /* Larger top margin */
+                padding-left: 5%;  /* More left padding */
+                padding-right: 5%;  /* More right padding */
+            }
+            
+            /* Hide desktop description */
+            .header .description.desktop {
+                display: none;
+            }
+            
+            /* Show mobile description */
+            .header .description.mobile {
+                display: block;  /* Show element */
+                text-align: left;  /* Left aligned */
+                margin-top: 15px;  /* Top margin */
+            }
+            
+            /* Mobile description list styling */
+            .header .description.mobile ul {
+                padding-left: 20px;  /* Left padding */
+            }
+            
+            /* Mobile description list items */
+            .header .description.mobile li {
+                margin-bottom: 8px;  /* Bottom margin */
+                list-style-type: disc;  /* Bullet points */
+            }
+            
+            /* Stack rows vertically on mobile */
+            .row {
+                flex-direction: column;  /* Vertical stacking */
+            }
+            
+            /* Column adjustments for mobile */
+            .column {
+                margin: 20px 0;  /* Vertical margin */
+                width: 100%;  /* Full width */
+            }
+            
+            /* Iframe map adjustments */
+            iframe.map {
+                height: 500px;  /* Fixed height */
+                min-height: 500px;  /* Minimum height */
+            }
+            
+            /* Interactive plot adjustments */
+            .interactive-plot {
+                height: 500px;  /* Fixed height */
+                min-height: 500px;  /* Minimum height */
+            }
+            
+            /* Image adjustments */
+            img.image {
+                height: auto;  /* Auto height */
+                width: 100%;  /* Full width */
+                max-width: 100%;  /* Don't exceed container */
+            }
+            
+            /* Soil erosion data adjustments */
+            .soil-erosion-data {
+                padding: 15px;  /* Less padding */
+                width: 100%;  /* Full width */
+                box-sizing: border-box;  /* Include padding in width */
+            }
+            
+            /* Data row adjustments */
+            .data-row {
+                flex-direction: row !important;  /* Force row layout */
+                flex-wrap: wrap;  /* Allow wrapping */
+            }
+            
+            /* Data label adjustments */
+            .data-label {
+                width: 25% !important;  /* 25% width */
+                min-width: 100px;  /* Minimum width */
+            }
+            
+            /* Data value adjustments */
+            .data-value {
+                width: 20% !important;  /* 20% width */
+                min-width: 80px;  /* Minimum width */
+            }
+            
+            /* Data description adjustments */
+            .data-desc {
+                width: 50% !important;  /* 50% width */
+                min-width: 150px;  /* Minimum width */
+            }
+            
+            /* Stats row adjustments */
+            .stats-row {
+                flex-direction: row !important;  /* Force row layout */
+                flex-wrap: wrap;  /* Allow wrapping */
+            }
+            
+            /* Stat box adjustments */
+            .stat-box {
+                min-width: 100px;  /* Minimum width */
+                margin: 5px;  /* Smaller margin */
+                flex: 1 1 calc(25% - 10px);  /* Flexible width with calculation */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section with title and descriptions -->
+    <div class="header">
+        <div class="title">Marls</div>
+        
+        <!-- Desktop version description (shown on larger screens): Figures in two columns -->
+        <div class="description desktop">
+            <p>Below are paired visualizations:</p>
+            <ul>
+                <li>Interactive location map & satellite view of the vineyard.</li>
+                <li>Interactive topsoil level visualization & 2D plot of vineyard surface erosion.</li>
+                <li>Box plot and histogram analyzing erosion data.</li>
+                <li>Topsoil level data and vineyard real view.</li>
+            </ul>
+        </div>
+        
+        <!-- Mobile version description (shown on smaller screens): Figures in one column -->
+        <div class="description mobile">
+            <p>Visualizations:</p>
+            <ul>
+                <li>Figure 1: Interactive location map.</li>
+                <li>Figure 2: Satellite view of the vineyard.</li>
+                <li>Figure 3: Interactive topsoil level visualization.</li>
+                <li>Figure 4: 2D plot of vineyard topsoil level.</li>
+                <li>Figure 5: Box plot analyzing erosion data.</li>
+                <li>Figure 6: Histogram analyzing erosion data.</li>
+                <li>Topsoil level data.</li>
+                <li>Figure 7: Panoramic view of the vineyard.</li>
+            </ul>
+        </div>
+    </div>
+    
+    
+    <!-- Top row: Map and PNG image -->
+    <div class="row">
+        <!-- First column with interactive map -->
+        <div class="column">
+            <iframe class="map" src="images_marls/map_marls.html"></iframe>
+            <div class="figure-caption">Figure 1: Interactive location map. Use zoom to compare regional/global positioning.</div>
+        </div>
+        
+        <!-- Second column with static map image -->
+        <div class="column">
+            <div style="zoom:1.0; width: 100%; max-width: 100%; display: block; margin: 0 auto;">
+                <img class="image" src="images_marls/map_marls.png"
+                     style="width: 100%; height: auto; display: block;">
+            </div>
+            
+            <div class="figure-caption">Figure 2: Location of study area. Satellite imagery showing the vineyard's position within Spain.</div>
+        </div>
+    </div>
+
+
+    <!-- Bottom row: 3D plot -->
+    <div class="row">
+        <!-- First column with 3D interactive plot -->
+        <div class="column">
+            <iframe class="interactive-plot" src="images_marls/plot3d_marls.html" 
+            style="zoom:0.7;width: 100%; max-width: 100%; display: block; margin: 0 auto;"></iframe>
+            <div class="figure-caption">Figure 3: Interactive 3D rendering of topsoil level topography (green = positive/deposition, red = negative/erosion). Rotate (click+drag) to examine spatial distribution.</div>
+        </div>   
+        
+        <!-- Second column with 2D plot image -->
+        <div class="column">
+            <img 
+                class="image" 
+                src="images_marls/plot2d_marls.png" 
+                style="width: 75%; max-width: 80%; display: block; margin: 0 auto;"
+            >
+            <div class="figure-caption">
+                Figure 4: Topsoil level. Color scale indicates erosion values (green = positive/deposition, red = negative/erosion).
+            </div>
+        </div>
+    </div>
+
+     <!-- Middle row: Statistical graphs -->
+     <div class="row">
+        <!-- First column with box plot -->
+        <div class="column">
+            <img class="image" src="images_marls/boxplot_marls.png" alt="Box Plot">
+            <div class="figure-caption">Figure 5: Box plot.</div>
+        </div>   
+        
+        <!-- Second column with histogram -->
+        <div class="column">
+            <img class="image" src="images_marls/histogram_marls.png" alt="Histogram">
+            <div class="figure-caption">Figure 6: Histogram.</div>
+        </div>
+    </div>
+
+    <!-- Bottom section with data table and panoramic view -->
+    <div class="row">
+        <!-- First column with soil erosion data -->
+        <div class="column">
+            <div class="soil-erosion-data">
+                <h3>Marls - Erosion Data (cm)</h3>
+                
+                <div class="data-grid">
+                    <!-- Bulk density row -->
+                    <div class="data-row">
+                        <div class="data-label">Bulk density (ρ<sub>apa</sub>):</div>
+                        <div class="data-value">1.437 g/cm³</div>
+                        <div class="data-desc">Soil compaction measurement</div>
+                    </div>
+                    
+                    <!-- Time period row -->
+                    <div class="data-row">
+                        <div class="data-label">Time period:</div>
+                        <div class="data-value">8 years</div>
+                        <div class="data-desc">Age of measurement </div>
+                    </div>
+                    
+                    <!-- Erosion rate row -->
+                    <div class="data-row">
+                        <div class="data-label">Erosion rate:</div>
+                        <div class="data-value">-87.706 ton/ha/year</div>
+                        <div class="data-desc">Average annual soil loss</div>
+                    </div>
+                    
+                    <!-- Statistics row -->
+                    <div class="data-row stats-row">
+                        <div class="stat-box">
+                            <div class="stat-label">Mean</div>
+                            <div class="stat-value">-4.906</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Std Dev</div>
+                            <div class="stat-value">3.524</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Minimum</div>
+                            <div class="stat-value">-19.0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Maximum</div>
+                            <div class="stat-value">8.0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data note -->
+                    <div class="data-note">
+                        Note: Negative values indicate soil erosion rather than deposition.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Second column with panoramic view -->
+        <div class="column">
+            <img class="image" src="images_marls/marls_8years.JPG">
+            <div class="figure-caption">Figure 7: Paronamic view of the vineyard.</div>
+        </div>
+    </div>
+    
+    <!-- JavaScript to color negative values red -->
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all elements with class 'data-value'
+            const dataValues = document.querySelectorAll('.data-value');
+            
+            // Loop through each data value element
+            dataValues.forEach(element => {
+                // Parse the text content as a float
+                const value = parseFloat(element.textContent);
+                
+                // Check if the value is a valid number
+                if (!isNaN(value)) {
+                    // If negative, set color to red
+                    if (value < 0) {
+                        element.style.color = '#e74c3c'; // Red
+                    } else {
+                        // If positive, set color to green
+                        element.style.color = '#27ae60'; // Green
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
